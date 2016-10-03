@@ -2,7 +2,7 @@ package fullstack.to.aggregates
 
 import fullstack.to.commands.CreateToDoItemCommand
 import fullstack.to.commands.MarkCompletedCommand
-import fullstack.to.commands.handler.ToDoCommandHandler
+import fullstack.to.commands.handler.MarkCompletedCommandHandler
 import fullstack.to.events.ToDoItemCompletedEvent
 import fullstack.to.events.ToDoItemCreatedEvent
 import org.axonframework.test.FixtureConfiguration
@@ -14,7 +14,7 @@ public class ToDoItemTest extends Specification {
 
     void setup() {
         fixture = Fixtures.newGivenWhenThenFixture(ToDoItem.class)
-        fixture.registerAnnotatedCommandHandler(new ToDoCommandHandler(fixture.getRepository()))
+        fixture.registerAnnotatedCommandHandler(new MarkCompletedCommandHandler(fixture.getRepository()))
     }
 
     def "test Create ToDo Item"() {

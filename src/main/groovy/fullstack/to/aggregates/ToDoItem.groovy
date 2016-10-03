@@ -20,24 +20,18 @@ public class ToDoItem extends AbstractAnnotatedAggregateRoot {
     ToDoItem() {
     }
 
-    @CommandHandler
     public ToDoItem(CreateToDoItemCommand command) {
-        println("********************************")
-        println("********************************")
-        println("********************************")
         apply(new ToDoItemCreatedEvent(command.getTodoId(), command.getDescription()))
     }
 
     @EventSourcingHandler
     public void on(ToDoItemCreatedEvent event) {
-        println("I am here")
         this.id = event.getTodoId()
         this.completed = false
     }
 
     @EventSourcingHandler
     public void on(ToDoItemCompletedEvent event) {
-        println("I am here also!!!")
         this.completed = true
     }
 

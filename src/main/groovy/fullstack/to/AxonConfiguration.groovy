@@ -40,7 +40,8 @@ public class AxonConfiguration {
 
     @Bean
     CommandBus commandBus() {
-        new SimpleCommandBus()
+        SimpleCommandBus simpleCommandBus = new SimpleCommandBus()
+        simpleCommandBus
     }
 
     @Bean
