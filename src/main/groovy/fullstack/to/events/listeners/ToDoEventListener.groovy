@@ -1,4 +1,4 @@
-package fullstack.to.events.handler
+package fullstack.to.events.listeners
 
 import fullstack.to.events.ToDoItemCompletedEvent
 import fullstack.to.events.ToDoItemCreatedEvent
@@ -10,11 +10,11 @@ class ToDoEventListener {
 
     @EventHandler
     public static void on(ToDoItemCreatedEvent event) {
-        System.out.println("We've got something to do: $event.description ($event.todoId)");
+        println("ToDoItemCreatedEventListener: $event.description ($event.todoId)");
     }
 
     @EventHandler
     public static void on(ToDoItemCompletedEvent event) {
-        System.out.println("We've completed a task: $event.todoId with the following subtasks $event.steps");
+        println("ToDoItemCompletedEventListener: $event.todoId with the following subtasks $event.steps");
     }
 }
