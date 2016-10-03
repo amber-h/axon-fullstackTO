@@ -1,19 +1,10 @@
 ## FullstackTO - simple CQRS app with Axon
 
-Dependencies
+ * This is a simple spring boot application, using the Axon framework for Java. 
+ * You will need groovy and gradle to run this application.
 
-You will need groovy, gradle, rabbitmq and mongodb installed to run this.
+### Running the application
 
-Installing MongoDB
+`./gradlew bootRun`
 
-brew install mongodb
-
-Running MongoDB
-
-mkdir -p /data/db
-
-Running the application
-
-./gradlew bootRun
-
-In postman hit the endpoint localhost:8888
+In postman hit the endpoint localhost:8080
