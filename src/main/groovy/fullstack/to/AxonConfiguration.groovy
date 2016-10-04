@@ -1,47 +1,58 @@
 package fullstack.to
 
+import com.mongodb.MongoClient
 import fullstack.to.aggregates.ToDoItem
 import org.axonframework.commandhandling.CommandBus
 import org.axonframework.commandhandling.SimpleCommandBus
+import org.axonframework.commandhandling.annotation.AggregateAnnotationCommandHandler
+import org.axonframework.commandhandling.annotation.AnnotationCommandHandlerBeanPostProcessor
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.commandhandling.gateway.DefaultCommandGateway
 import org.axonframework.contextsupport.spring.AnnotationDriven
 import org.axonframework.eventhandling.EventBus
 import org.axonframework.eventhandling.SimpleEventBus
+import org.axonframework.eventhandling.annotation.AnnotationEventListenerBeanPostProcessor
 import org.axonframework.eventsourcing.EventSourcingRepository
+import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot
 import org.axonframework.eventstore.EventStore
+import org.axonframework.eventstore.fs.FileSystemEventStore
+import org.axonframework.eventstore.fs.SimpleEventFileResolver
 import org.axonframework.eventstore.jdbc.JdbcEventStore
+import org.axonframework.eventstore.mongo.DefaultMongoTemplate
+import org.axonframework.eventstore.mongo.MongoEventStore
+import org.axonframework.eventstore.mongo.MongoTemplate
 import org.axonframework.repository.Repository
+import org.axonframework.serializer.json.JacksonSerializer
 import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
+import javax.annotation.PostConstruct
 import javax.sql.DataSource
 
 @Configuration
 @AnnotationDriven //all command handlers and event handlers will be scanned and registered with their respective bus
 public class AxonConfiguration {
 
-    @Bean
-    public DataSource dataSource() {
-        DataSourceBuilder
-                .create()
-                .username("sa")
-                .password("")
-                .url("jdbc:h2:mem:axondb")
-                .driverClassName("org.h2.Driver")
-                .build();
-    }
+//    @Bean
+//    public DataSource dataSource() {
+//        DataSourceBuilder
+//                .create()
+//                .username("sa")
+//                .password("")
+//                .url("jdbc:h2:mem:axondb")
+//                .driverClassName("org.h2.Driver")
+//                .build();
+//    }
 
-    @Bean
-    public EventStore jdbcEventStore() {
-         new JdbcEventStore(dataSource())
-    }
+//    @Bean
+//    public EventStore jdbcEventStore() {
+//         new JdbcEventStore(dataSource())
+//    }
 
     @Bean
     CommandBus commandBus() {
-        SimpleCommandBus simpleCommandBus = new SimpleCommandBus()
-        simpleCommandBus
+        new SimpleCommandBus()
     }
 
     @Bean
@@ -56,10 +67,35 @@ public class AxonConfiguration {
 
     @Bean
     public Repository<ToDoItem> eventSourcingRepository() {
-        EventSourcingRepository repository = new EventSourcingRepository(ToDoItem.class, jdbcEventStore())
-        repository.setEventBus(eventBus())
+        FileSystemEventStore eventStore = new FileSystemEventStore(new SimpleEventFileResolver(new File("data/eventstore")));
+        EventSourcingRepository<ToDoItem> repository = new EventSourcingRepository<ToDoItem>(ToDoItem.class, eventStore);
 
-        return repository
+        repository.setEventBus(eventBus());
+        return repository;
     }
+
+
+//    @Bean
+//    MongoTemplate axonMongoTemplate(MongoClient client) {
+//        new DefaultMongoTemplate(
+//                client
+//        )
+//    }
+
+//    @Bean
+//    EventStore eventStore(MongoTemplate template) {
+//        new MongoEventStore(
+//                new JacksonSerializer(),
+//                template
+//        )
+//    }
+
+//    @Bean
+//    public Repository<ToDoItem> eventSourcingRepository() {
+//        EventSourcingRepository repository = new EventSourcingRepository(ToDoItem.class, eventStore(axonMongoTemplate(new MongoClient())))
+//        repository.setEventBus(eventBus())
+//
+//        return repository
+//    }
 
 }
