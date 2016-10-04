@@ -7,8 +7,10 @@ import fullstack.to.events.ToDoItemCompletedEvent
 import fullstack.to.events.ToDoItemCreatedEvent
 import org.axonframework.test.FixtureConfiguration
 import org.axonframework.test.Fixtures
+import spock.lang.Ignore
 import spock.lang.Specification
 
+@Ignore
 public class ToDoItemTest extends Specification {
     private FixtureConfiguration fixture;
 

@@ -1,15 +1,13 @@
 package fullstack.to.aggregates
 
-import fullstack.to.events.ToDoItemCompletedEvent
 import fullstack.to.commands.CreateToDoItemCommand
+import fullstack.to.events.ToDoItemCompletedEvent
 import fullstack.to.events.ToDoItemCreatedEvent
-import org.axonframework.commandhandling.annotation.CommandHandler
-import org.axonframework.eventhandling.annotation.EventHandler
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot
 import org.axonframework.eventsourcing.annotation.AggregateIdentifier
 import org.axonframework.eventsourcing.annotation.EventSourcingHandler
 
-public class ToDoItem extends AbstractAnnotatedAggregateRoot {
+public class ToDoItem extends AbstractAnnotatedAggregateRoot<String> {
 
     @AggregateIdentifier
     private String id

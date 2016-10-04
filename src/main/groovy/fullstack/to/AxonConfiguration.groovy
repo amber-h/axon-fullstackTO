@@ -1,101 +1,77 @@
 package fullstack.to
 
-import com.mongodb.MongoClient
 import fullstack.to.aggregates.ToDoItem
 import org.axonframework.commandhandling.CommandBus
 import org.axonframework.commandhandling.SimpleCommandBus
 import org.axonframework.commandhandling.annotation.AggregateAnnotationCommandHandler
 import org.axonframework.commandhandling.annotation.AnnotationCommandHandlerBeanPostProcessor
 import org.axonframework.commandhandling.gateway.CommandGateway
-import org.axonframework.commandhandling.gateway.DefaultCommandGateway
+import org.axonframework.commandhandling.gateway.CommandGatewayFactoryBean
+import org.axonframework.commandhandling.interceptors.BeanValidationInterceptor
 import org.axonframework.contextsupport.spring.AnnotationDriven
 import org.axonframework.eventhandling.EventBus
 import org.axonframework.eventhandling.SimpleEventBus
 import org.axonframework.eventhandling.annotation.AnnotationEventListenerBeanPostProcessor
 import org.axonframework.eventsourcing.EventSourcingRepository
-import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot
-import org.axonframework.eventstore.EventStore
 import org.axonframework.eventstore.fs.FileSystemEventStore
 import org.axonframework.eventstore.fs.SimpleEventFileResolver
-import org.axonframework.eventstore.jdbc.JdbcEventStore
-import org.axonframework.eventstore.mongo.DefaultMongoTemplate
-import org.axonframework.eventstore.mongo.MongoEventStore
-import org.axonframework.eventstore.mongo.MongoTemplate
-import org.axonframework.repository.Repository
-import org.axonframework.serializer.json.JacksonSerializer
-import org.springframework.boot.autoconfigure.jdbc.DataSourceBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-
-import javax.annotation.PostConstruct
-import javax.sql.DataSource
 
 @Configuration
 @AnnotationDriven //all command handlers and event handlers will be scanned and registered with their respective bus
 public class AxonConfiguration {
-
-//    @Bean
-//    public DataSource dataSource() {
-//        DataSourceBuilder
-//                .create()
-//                .username("sa")
-//                .password("")
-//                .url("jdbc:h2:mem:axondb")
-//                .driverClassName("org.h2.Driver")
-//                .build();
-//    }
-
-//    @Bean
-//    public EventStore jdbcEventStore() {
-//         new JdbcEventStore(dataSource())
-//    }
-
     @Bean
-    CommandBus commandBus() {
-        new SimpleCommandBus()
+    public AnnotationEventListenerBeanPostProcessor annotationEventListenerBeanPostProcessor() {
+        AnnotationEventListenerBeanPostProcessor processor = new AnnotationEventListenerBeanPostProcessor();
+        processor.setEventBus(eventBus());
+        return processor;
     }
 
     @Bean
-    public CommandGateway commandGateway() {
-        new DefaultCommandGateway(commandBus())
+    public AnnotationCommandHandlerBeanPostProcessor annotationCommandHandlerBeanPostProcessor() {
+        AnnotationCommandHandlerBeanPostProcessor processor = new AnnotationCommandHandlerBeanPostProcessor();
+        processor.setCommandBus(commandBus());
+        return processor;
     }
 
     @Bean
-    EventBus eventBus() {
-        new SimpleEventBus()
+    public CommandBus commandBus() {
+        SimpleCommandBus commandBus = new SimpleCommandBus();
+        commandBus.setHandlerInterceptors(Arrays.asList(new BeanValidationInterceptor()));
+//		commandBus.setTransactionManager(new SpringTransactionManager(transactionManager));
+        return commandBus;
     }
 
     @Bean
-    public Repository<ToDoItem> eventSourcingRepository() {
-        FileSystemEventStore eventStore = new FileSystemEventStore(new SimpleEventFileResolver(new File("data/eventstore")));
+    public EventBus eventBus() {
+        return new SimpleEventBus();
+    }
+
+    @Bean
+    public CommandGatewayFactoryBean<CommandGateway> commandGatewayFactoryBean() {
+        CommandGatewayFactoryBean<CommandGateway> factory = new CommandGatewayFactoryBean<CommandGateway>();
+        factory.setCommandBus(commandBus());
+        return factory;
+    }
+
+//	@Bean
+//	public EntityManagerProvider entityManagerProvider() {
+//		return new ContainerManagedEntityManagerProvider();
+//	}
+
+    @Bean
+    public EventSourcingRepository<ToDoItem> todoRepository() {
+        FileSystemEventStore eventStore = new FileSystemEventStore(new SimpleEventFileResolver(new File("data/evenstore")));
         EventSourcingRepository<ToDoItem> repository = new EventSourcingRepository<ToDoItem>(ToDoItem.class, eventStore);
-
         repository.setEventBus(eventBus());
         return repository;
     }
 
-
-//    @Bean
-//    MongoTemplate axonMongoTemplate(MongoClient client) {
-//        new DefaultMongoTemplate(
-//                client
-//        )
-//    }
-
-//    @Bean
-//    EventStore eventStore(MongoTemplate template) {
-//        new MongoEventStore(
-//                new JacksonSerializer(),
-//                template
-//        )
-//    }
-
-//    @Bean
-//    public Repository<ToDoItem> eventSourcingRepository() {
-//        EventSourcingRepository repository = new EventSourcingRepository(ToDoItem.class, eventStore(axonMongoTemplate(new MongoClient())))
-//        repository.setEventBus(eventBus())
-//
-//        return repository
-//    }
+    @Bean
+    public AggregateAnnotationCommandHandler<ToDoItem> todoCommandHandler() {
+        AggregateAnnotationCommandHandler<ToDoItem> commandHandler = AggregateAnnotationCommandHandler.subscribe(ToDoItem.class, todoRepository(), commandBus());
+        return commandHandler;
+    }
 
 }

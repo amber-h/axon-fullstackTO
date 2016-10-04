@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class ToDoItemCompletedEventListener {
 
     @EventHandler
-    public static void handle(ToDoItemCompletedEvent event) {
+    public static void on(ToDoItemCompletedEvent event) {
         println("ToDoItemCompletedEventListener: $event.todoId with the following subtasks $event.steps");
     }
 }

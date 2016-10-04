@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component
 class ToDoItemCreatedEventListener {
 
     @EventHandler
-    public static void handle(ToDoItemCreatedEvent event) {
+    public static void on(ToDoItemCreatedEvent event) {
         println("ToDoItemCreatedEventListener: $event.description ($event.todoId)");
     }
 
