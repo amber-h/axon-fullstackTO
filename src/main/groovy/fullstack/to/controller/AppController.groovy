@@ -30,7 +30,7 @@ class AppController {
         return "created to do with id: " + itemId
     }
 
-    @RequestMapping(value = "/complete", method = RequestMethod.POST)
+    @RequestMapping(value = "/complete/{itemId}", method = RequestMethod.POST)
     public String markCompleted(@PathVariable String itemId) {
         LOG.info("Sending MarkCompletedCommand for item:" + itemId)
         commandGateway.send(new MarkCompletedCommand(itemId));
