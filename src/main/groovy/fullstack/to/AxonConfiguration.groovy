@@ -62,7 +62,7 @@ public class AxonConfiguration {
 
     @Bean
     public EventSourcingRepository<ToDoItem> todoRepository() {
-        FileSystemEventStore eventStore = new FileSystemEventStore(new SimpleEventFileResolver(new File("data/evenstore")));
+        FileSystemEventStore eventStore = new FileSystemEventStore(new SimpleEventFileResolver(new File("data/eventstore")));
         EventSourcingRepository<ToDoItem> repository = new EventSourcingRepository<ToDoItem>(ToDoItem.class, eventStore);
         repository.setEventBus(eventBus());
         return repository;
