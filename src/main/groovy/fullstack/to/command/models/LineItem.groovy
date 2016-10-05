@@ -1,4 +1,4 @@
-package fullstack.to.models
+package fullstack.to.command.models
 
 import groovy.transform.EqualsAndHashCode
 

@@ -1,11 +1,11 @@
-package fullstack.to.models
+package fullstack.to.command.models
 
-import fullstack.to.commands.AddPoutineToOrderCommand
-import fullstack.to.commands.OpenOrderCommand
-import fullstack.to.commands.SubmitOrderCommand
-import fullstack.to.events.OrderOpenedEvent
-import fullstack.to.events.OrderSubmittedEvent
-import fullstack.to.events.PoutineAddedToOrderEvent
+import fullstack.to.command.commands.AddPoutineToOrderCommand
+import fullstack.to.command.commands.OpenOrderCommand
+import fullstack.to.command.commands.SubmitOrderCommand
+import fullstack.to.command.events.OrderOpenedEvent
+import fullstack.to.command.events.OrderSubmittedEvent
+import fullstack.to.command.events.PoutineAddedToOrderEvent
 import org.axonframework.commandhandling.annotation.CommandHandler
 import org.axonframework.eventsourcing.annotation.AbstractAnnotatedAggregateRoot
 import org.axonframework.eventsourcing.annotation.AggregateIdentifier

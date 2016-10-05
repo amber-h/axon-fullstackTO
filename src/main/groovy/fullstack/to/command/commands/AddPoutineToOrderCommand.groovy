@@ -1,4 +1,4 @@
-package fullstack.to.commands
+package fullstack.to.command.commands
 
 import groovy.transform.Immutable
 import lombok.AllArgsConstructor

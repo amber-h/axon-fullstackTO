@@ -1,4 +1,4 @@
-package fullstack.to.events
+package fullstack.to.command.events
 
 import groovy.transform.Immutable
 import lombok.Getter

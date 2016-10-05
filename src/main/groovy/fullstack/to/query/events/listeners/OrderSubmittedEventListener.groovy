@@ -1,6 +1,6 @@
-package fullstack.to.events.listeners
+package fullstack.to.query.events.listeners
 
-import fullstack.to.events.OrderSubmittedEvent
+import fullstack.to.command.events.OrderSubmittedEvent
 import org.axonframework.eventhandling.annotation.EventHandler
 import org.springframework.stereotype.Component
 

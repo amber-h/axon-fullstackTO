@@ -1,7 +1,7 @@
 package fullstack.to
 
 import com.mongodb.MongoClient
-import fullstack.to.models.Order
+import fullstack.to.command.models.Order
 
 import org.axonframework.commandhandling.CommandBus
 import org.axonframework.commandhandling.SimpleCommandBus
@@ -57,7 +57,7 @@ public class AxonConfiguration {
     }
 
     @Bean
-    public EventSourcingRepository<Order> orderRepository() {
+    public EventSourcingRepository<Order> eventOrderRepository() {
         EventSourcingRepository<Order> repository = new EventSourcingRepository<Order>(Order.class, eventStore());
         repository.setEventBus(eventBus());
         return repository;
@@ -65,7 +65,7 @@ public class AxonConfiguration {
 
     @Bean
     public AggregateAnnotationCommandHandler<Order> orderCommandHandler() {
-        AggregateAnnotationCommandHandler<Order> commandHandler = AggregateAnnotationCommandHandler.subscribe(Order.class, orderRepository(), commandBus());
+        AggregateAnnotationCommandHandler<Order> commandHandler = AggregateAnnotationCommandHandler.subscribe(Order.class, eventOrderRepository(), commandBus());
         return commandHandler;
     }
 

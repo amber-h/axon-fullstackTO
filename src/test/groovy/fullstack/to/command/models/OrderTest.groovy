@@ -1,9 +1,9 @@
-package fullstack.to.models
+package fullstack.to.command.models
 
-import fullstack.to.commands.AddPoutineToOrderCommand
-import fullstack.to.commands.OpenOrderCommand
-import fullstack.to.events.OrderOpenedEvent
-import fullstack.to.events.PoutineAddedToOrderEvent
+import fullstack.to.command.commands.AddPoutineToOrderCommand
+import fullstack.to.command.commands.OpenOrderCommand
+import fullstack.to.command.events.OrderOpenedEvent
+import fullstack.to.command.events.PoutineAddedToOrderEvent
 import org.axonframework.test.FixtureConfiguration
 import org.axonframework.test.Fixtures
 import spock.lang.Specification

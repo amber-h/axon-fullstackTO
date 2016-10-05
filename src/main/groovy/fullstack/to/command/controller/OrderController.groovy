@@ -1,9 +1,9 @@
-package fullstack.to.controller
+package fullstack.to.command.controller
 
-import fullstack.to.commands.AddPoutineToOrderCommand
-import fullstack.to.commands.OpenOrderCommand
-import fullstack.to.commands.SubmitOrderCommand
-import fullstack.to.models.LineItem
+import fullstack.to.command.commands.AddPoutineToOrderCommand
+import fullstack.to.command.commands.OpenOrderCommand
+import fullstack.to.command.commands.SubmitOrderCommand
+import fullstack.to.command.models.LineItem
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class CommandController {
+class OrderController {
 
     private static final Logger LOG = LoggerFactory.getLogger(this)
 

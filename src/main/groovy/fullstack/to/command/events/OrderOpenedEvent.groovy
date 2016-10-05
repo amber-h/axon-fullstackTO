@@ -1,6 +1,6 @@
-package fullstack.to.events
+package fullstack.to.command.events
 
-import fullstack.to.models.OrderStatus
+import fullstack.to.command.models.OrderStatus
 import groovy.transform.Immutable
 import lombok.Getter
 

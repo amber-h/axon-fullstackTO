@@ -1,12 +1,11 @@
-package fullstack.to.commands
+package fullstack.to.command.commands
 
 import groovy.transform.Immutable
 import org.axonframework.commandhandling.annotation.TargetAggregateIdentifier
 
 @Immutable
-public class OpenOrderCommand {
+class SubmitOrderCommand {
 
     @TargetAggregateIdentifier
-    String id
-
+    String orderId
 }
