@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-@AnnotationDriven //all command handlers and event handlers will be scanned and registered with their respective bus
+@AnnotationDriven
 public class AxonConfiguration {
     @Bean
     public AnnotationEventListenerBeanPostProcessor annotationEventListenerBeanPostProcessor() {
@@ -39,7 +39,6 @@ public class AxonConfiguration {
     public CommandBus commandBus() {
         SimpleCommandBus commandBus = new SimpleCommandBus();
         commandBus.setHandlerInterceptors(Arrays.asList(new BeanValidationInterceptor()));
-//		commandBus.setTransactionManager(new SpringTransactionManager(transactionManager));
         return commandBus;
     }
 
@@ -54,11 +53,6 @@ public class AxonConfiguration {
         factory.setCommandBus(commandBus());
         return factory;
     }
-
-//	@Bean
-//	public EntityManagerProvider entityManagerProvider() {
-//		return new ContainerManagedEntityManagerProvider();
-//	}
 
     @Bean
     public EventSourcingRepository<ToDoItem> todoRepository() {

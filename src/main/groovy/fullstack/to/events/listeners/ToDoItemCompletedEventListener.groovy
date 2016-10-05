@@ -9,6 +9,6 @@ class ToDoItemCompletedEventListener {
 
     @EventHandler
     public static void on(ToDoItemCompletedEvent event) {
-        println("ToDoItemCompletedEventListener: $event.todoId with the following subtasks $event.steps");
+        println("ToDoItemCompletedEventListener: $event.todoId");
     }
 }
