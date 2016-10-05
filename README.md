@@ -3,7 +3,7 @@
  * This is a simple spring boot application, using the Axon framework for Java. 
  * You will need groovy, gradle and mongodb installed to run this application.
 
-## Installing MongoDB
+### Installing MongoDB
   
  ```brew install mongodb```
  
@@ -18,6 +18,6 @@
 
 `./gradlew bootRun`
 
-In postman hit the endpoint localhost:8080 to create a ToDo list
+Using your rest client of choice, (ex [Postman](https://www.getpostman.com/)) hit the endpoint localhost:8080 to create a ToDo list
 
 Make a @POST request to localhost:8080/complete/{todoItemId} to mark the ToDo as completed
