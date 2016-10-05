@@ -25,19 +25,6 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 @AnnotationDriven
 public class AxonConfiguration {
-    @Bean
-    public AnnotationEventListenerBeanPostProcessor annotationEventListenerBeanPostProcessor() {
-        AnnotationEventListenerBeanPostProcessor processor = new AnnotationEventListenerBeanPostProcessor();
-        processor.setEventBus(eventBus());
-        return processor;
-    }
-
-    @Bean
-    public AnnotationCommandHandlerBeanPostProcessor annotationCommandHandlerBeanPostProcessor() {
-        AnnotationCommandHandlerBeanPostProcessor processor = new AnnotationCommandHandlerBeanPostProcessor();
-        processor.setCommandBus(commandBus());
-        return processor;
-    }
 
     @Bean
     public CommandBus commandBus() {
