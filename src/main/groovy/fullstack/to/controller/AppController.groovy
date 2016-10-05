@@ -1,16 +1,14 @@
 package fullstack.to.controller
 
-import fullstack.to.commands.CreateToDoItemCommand
-import fullstack.to.commands.MarkCompletedCommand
+import fullstack.to.commands.AddPoutineToOrderCommand
+import fullstack.to.commands.OpenOrderCommand
+import fullstack.to.commands.SubmitOrderCommand
+import fullstack.to.models.LineItem
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 
 @RestController
 class AppController {
@@ -20,20 +18,29 @@ class AppController {
     @Autowired
     CommandGateway commandGateway
 
-    @RequestMapping("/")
-    public String helloWorld() {
-        final String itemId = UUID.randomUUID().toString();
+    @RequestMapping("/orders")
+    public String openOrder() {
+        final String orderId = UUID.randomUUID().toString();
 
-        LOG.info("Sending CreateToDoItemCommand for item:" + itemId)
-        commandGateway.send(new CreateToDoItemCommand(itemId, "Order some poutine"));
+        LOG.info("Sending OpenOrderCommand for order with id:" + orderId)
+        commandGateway.send(new OpenOrderCommand(orderId));
 
-        return "created to do with id: " + itemId
+        return "opened an order with id: " + orderId
     }
 
-    @RequestMapping(value = "/complete/{itemId}", method = RequestMethod.POST)
-    public String markCompleted(@PathVariable String itemId) {
-        LOG.info("Sending MarkCompletedCommand for item:" + itemId)
-        commandGateway.send(new MarkCompletedCommand(itemId));
-        return "mark todo completed"
+    @RequestMapping(value = "/orders/{orderId}/addPoutine", method = RequestMethod.POST)
+    public void addItem(@RequestBody LineItem request, @PathVariable String orderId) {
+        commandGateway.send(new AddPoutineToOrderCommand(
+                orderId,
+                request.productId,
+                request.description,
+                request.price,
+                request.quantity
+        ));
+    }
+
+    @RequestMapping(value = "/orders/{orderId}/submit", method = RequestMethod.POST)
+    public void submit(@PathVariable String orderId) {
+        commandGateway.send(new SubmitOrderCommand(orderId));
     }
 }

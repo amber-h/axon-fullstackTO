@@ -1,11 +1,11 @@
 package fullstack.to.commands
+
 import groovy.transform.Immutable
 import org.axonframework.commandhandling.annotation.TargetAggregateIdentifier
 
 @Immutable
-public class CreateToDoItemCommand {
+class SubmitOrderCommand {
 
     @TargetAggregateIdentifier
-    String todoId
-    String description
+    String orderId
 }

@@ -1,18 +1,17 @@
 package fullstack.to
 
 import com.mongodb.MongoClient
-import fullstack.to.models.ToDoItem
+import fullstack.to.models.Order
+
 import org.axonframework.commandhandling.CommandBus
 import org.axonframework.commandhandling.SimpleCommandBus
 import org.axonframework.commandhandling.annotation.AggregateAnnotationCommandHandler
-import org.axonframework.commandhandling.annotation.AnnotationCommandHandlerBeanPostProcessor
 import org.axonframework.commandhandling.gateway.CommandGateway
 import org.axonframework.commandhandling.gateway.CommandGatewayFactoryBean
 import org.axonframework.commandhandling.interceptors.BeanValidationInterceptor
 import org.axonframework.contextsupport.spring.AnnotationDriven
 import org.axonframework.eventhandling.EventBus
 import org.axonframework.eventhandling.SimpleEventBus
-import org.axonframework.eventhandling.annotation.AnnotationEventListenerBeanPostProcessor
 import org.axonframework.eventsourcing.EventSourcingRepository
 import org.axonframework.eventstore.EventStore
 import org.axonframework.eventstore.mongo.DefaultMongoTemplate
@@ -58,15 +57,15 @@ public class AxonConfiguration {
     }
 
     @Bean
-    public EventSourcingRepository<ToDoItem> todoRepository() {
-        EventSourcingRepository<ToDoItem> repository = new EventSourcingRepository<ToDoItem>(ToDoItem.class, eventStore());
+    public EventSourcingRepository<Order> orderRepository() {
+        EventSourcingRepository<Order> repository = new EventSourcingRepository<Order>(Order.class, eventStore());
         repository.setEventBus(eventBus());
         return repository;
     }
 
     @Bean
-    public AggregateAnnotationCommandHandler<ToDoItem> todoCommandHandler() {
-        AggregateAnnotationCommandHandler<ToDoItem> commandHandler = AggregateAnnotationCommandHandler.subscribe(ToDoItem.class, todoRepository(), commandBus());
+    public AggregateAnnotationCommandHandler<Order> orderCommandHandler() {
+        AggregateAnnotationCommandHandler<Order> commandHandler = AggregateAnnotationCommandHandler.subscribe(Order.class, orderRepository(), commandBus());
         return commandHandler;
     }
 

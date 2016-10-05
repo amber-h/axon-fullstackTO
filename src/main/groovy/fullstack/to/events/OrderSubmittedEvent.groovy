@@ -1,10 +1,11 @@
 package fullstack.to.events
+
 import groovy.transform.Immutable
 import lombok.Getter
 
 @Immutable
 @Getter
-public class ToDoItemCompletedEvent {
+class OrderSubmittedEvent {
 
-    String todoId
+    String orderId
 }
