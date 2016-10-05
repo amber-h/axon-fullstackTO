@@ -1,7 +1,7 @@
 ## FullstackTO - simple CQRS app with Axon
 
  * This is a simple spring boot application, using the Axon framework for Java. 
- * You will need groovy and gradle to run this application.
+ * You will need groovy, gradle and mongodb installed to run this application.
 
 ### Running the application
 
