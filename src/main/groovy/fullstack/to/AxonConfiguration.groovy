@@ -1,5 +1,6 @@
 package fullstack.to
 
+import com.mongodb.MongoClient
 import fullstack.to.aggregates.ToDoItem
 import org.axonframework.commandhandling.CommandBus
 import org.axonframework.commandhandling.SimpleCommandBus
@@ -13,8 +14,13 @@ import org.axonframework.eventhandling.EventBus
 import org.axonframework.eventhandling.SimpleEventBus
 import org.axonframework.eventhandling.annotation.AnnotationEventListenerBeanPostProcessor
 import org.axonframework.eventsourcing.EventSourcingRepository
+import org.axonframework.eventstore.EventStore
 import org.axonframework.eventstore.fs.FileSystemEventStore
 import org.axonframework.eventstore.fs.SimpleEventFileResolver
+import org.axonframework.eventstore.mongo.DefaultMongoTemplate
+import org.axonframework.eventstore.mongo.MongoEventStore
+import org.axonframework.eventstore.mongo.MongoTemplate
+import org.axonframework.serializer.json.JacksonSerializer
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -55,9 +61,21 @@ public class AxonConfiguration {
     }
 
     @Bean
+    MongoTemplate axonMongoTemplate(MongoClient client) {
+        new DefaultMongoTemplate(
+                client
+        )
+    }
+
+    @Bean
+    EventStore eventStore(MongoTemplate template) {
+        new MongoEventStore(new JacksonSerializer(), template)
+    }
+
+    @Bean
     public EventSourcingRepository<ToDoItem> todoRepository() {
-        FileSystemEventStore eventStore = new FileSystemEventStore(new SimpleEventFileResolver(new File("data/eventstore")));
-        EventSourcingRepository<ToDoItem> repository = new EventSourcingRepository<ToDoItem>(ToDoItem.class, eventStore);
+//        FileSystemEventStore eventStore = new FileSystemEventStore(new SimpleEventFileResolver(new File("data/eventstore")));
+        EventSourcingRepository<ToDoItem> repository = new EventSourcingRepository<ToDoItem>(ToDoItem.class, eventStore());
         repository.setEventBus(eventBus());
         return repository;
     }
