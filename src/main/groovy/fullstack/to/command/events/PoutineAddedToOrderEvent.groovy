@@ -1,5 +1,6 @@
 package fullstack.to.command.events
 
+import fullstack.to.command.models.LineItem
 import groovy.transform.Immutable
 import lombok.Getter
 
@@ -8,10 +9,8 @@ import lombok.Getter
 class PoutineAddedToOrderEvent {
 
     String orderId
-    Double currentOrderPrice
-    String productId
-    String description
-    Double itemPrice
-    int quantity
+    Double newTotalOrderPrice
+    List<LineItem> lineItemsWithAddition
+    LineItem lineItemAddition
 
 }

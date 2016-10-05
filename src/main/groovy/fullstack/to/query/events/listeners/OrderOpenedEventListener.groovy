@@ -21,7 +21,7 @@ class OrderOpenedEventListener {
     public static void on(OrderOpenedEvent event) {
         println("OrderOpenedEventListener: $event.id");
 
-        repository.save(new Order("id": event.id))
+        repository.save(new Order(id: event.id, status: event.status, lineItems: [], totalPrice: 0.00))
     }
 
 }

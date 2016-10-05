@@ -18,7 +18,7 @@ public class Order extends AbstractAnnotatedAggregateRoot<String> {
 
     private OrderStatus status
     private List<LineItem> lineItems
-    private BigDecimal totalPrice
+    private Double totalPrice
 
     //Axon requires a no arg constructor to create uninitialized aggregate
     Order() {
@@ -31,19 +31,23 @@ public class Order extends AbstractAnnotatedAggregateRoot<String> {
 
     @CommandHandler
     public void on(AddPoutineToOrderCommand command) {
+
+        Double newOrderTotal = totalPrice + command.getPrice().multiply(command.getQuantity());
+
+        LineItem lineItemAddition = new LineItem(command.orderId, command.productId, command.description, command.price, command.quantity)
+        List<LineItem> orderLineItemsWithAddition = lineItems.add(lineItemAddition)
+
         apply(new PoutineAddedToOrderEvent(
                 command.getOrderId(),
-                this.totalPrice,
-                command.getProductId(),
-                command.getDescription(),
-                command.getPrice(),
-                command.getQuantity()
+                newOrderTotal,
+                orderLineItemsWithAddition,
+                lineItemAddition
         ))
     }
 
     @CommandHandler
     public void on(SubmitOrderCommand command) {
-        apply(new OrderSubmittedEvent(command.getOrderId()))
+        apply(new OrderSubmittedEvent(command.getOrderId(), OrderStatus.SUBMITTED))
     }
 
     @EventSourcingHandler
@@ -56,19 +60,13 @@ public class Order extends AbstractAnnotatedAggregateRoot<String> {
 
     @EventSourcingHandler
     public void on(PoutineAddedToOrderEvent event) {
-        this.lineItems.add(new LineItem(
-                event.orderId,
-                event.productId,
-                event.description,
-                event.itemPrice,
-                event.quantity
-        ))
-        this.totalPrice += event.getItemPrice().multiply(event.getQuantity());
+        this.lineItems.add(event.lineItemAddition)
+        this.totalPrice += event.newTotalOrderPrice
     }
 
     @EventSourcingHandler
     public void on(OrderSubmittedEvent event) {
-        this.status = OrderStatus.SUBMITTED
+        this.status = event.status
     }
 
 }
