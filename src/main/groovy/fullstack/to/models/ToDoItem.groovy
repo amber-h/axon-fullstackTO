@@ -1,4 +1,4 @@
-package fullstack.to.aggregates
+package fullstack.to.models
 
 import fullstack.to.commands.CreateToDoItemCommand
 import fullstack.to.commands.MarkCompletedCommand

@@ -1,7 +1,7 @@
 package fullstack.to
 
 import com.mongodb.MongoClient
-import fullstack.to.aggregates.ToDoItem
+import fullstack.to.models.ToDoItem
 import org.axonframework.commandhandling.CommandBus
 import org.axonframework.commandhandling.SimpleCommandBus
 import org.axonframework.commandhandling.annotation.AggregateAnnotationCommandHandler
@@ -15,8 +15,6 @@ import org.axonframework.eventhandling.SimpleEventBus
 import org.axonframework.eventhandling.annotation.AnnotationEventListenerBeanPostProcessor
 import org.axonframework.eventsourcing.EventSourcingRepository
 import org.axonframework.eventstore.EventStore
-import org.axonframework.eventstore.fs.FileSystemEventStore
-import org.axonframework.eventstore.fs.SimpleEventFileResolver
 import org.axonframework.eventstore.mongo.DefaultMongoTemplate
 import org.axonframework.eventstore.mongo.MongoEventStore
 import org.axonframework.eventstore.mongo.MongoTemplate
