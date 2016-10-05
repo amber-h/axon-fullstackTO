@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 
 @RestController
-class AppController {
+class CommandController {
 
     private static final Logger LOG = LoggerFactory.getLogger(this)
 
