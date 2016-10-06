@@ -18,6 +18,4 @@
 
 `./gradlew bootRun`
 
-Using your rest client of choice, (ex [Postman](https://www.getpostman.com/)) hit the endpoint localhost:8080 to create a ToDo list
-
-Make a @POST request to localhost:8080/complete/{todoItemId} to mark the ToDo as completed
+Using your rest client of choice, (ex [Postman](https://www.getpostman.com/)) hit the endpoint localhost:8080/orders to open an order
