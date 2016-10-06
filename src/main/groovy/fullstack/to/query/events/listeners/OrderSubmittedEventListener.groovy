@@ -20,8 +20,6 @@ class OrderSubmittedEventListener {
 
     @EventHandler
     public static void on(OrderSubmittedEvent event) {
-        println("OrderSubmittedEventListener: $event.orderId");
-
         Order order = repository.findById(event.orderId)
 
         order.status = event.status

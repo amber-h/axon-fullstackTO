@@ -19,8 +19,6 @@ class PoutineAddedToOrderEventListener {
 
     @EventHandler
     public static void on(PoutineAddedToOrderEvent event) {
-        println("PoutineAddedToOrderEventListener: $event.orderId")
-
         Order order = repository.findById(event.orderId)
 
         order.lineItems = event.lineItemsWithAddition
