@@ -35,7 +35,7 @@ public class Order extends AbstractAnnotatedAggregateRoot<String> {
         Double newOrderTotal = totalPrice + command.getPrice().multiply(command.getQuantity());
 
         LineItem lineItemAddition = new LineItem(command.orderId, command.productId, command.description, command.price, command.quantity)
-        List<LineItem> orderLineItemsWithAddition = lineItems.add(lineItemAddition)
+        List<LineItem> orderLineItemsWithAddition = lineItems.plus(lineItemAddition)
 
         apply(new PoutineAddedToOrderEvent(
                 command.getOrderId(),

@@ -1,7 +1,9 @@
 package fullstack.to.command.models
 
 import groovy.transform.EqualsAndHashCode
+import groovy.transform.Immutable
 
+@Immutable
 @EqualsAndHashCode
 class LineItem {
 
@@ -10,15 +12,5 @@ class LineItem {
     String description
     Double price
     Integer quantity
-
-    LineItem() {}
-
-    public LineItem(String orderId, String productId, String description, Double price, Integer quantity) {
-        this.orderId = orderId
-        this.productId = productId
-        this.description = description
-        this.price = price
-        this.quantity = quantity
-    }
 
 }
