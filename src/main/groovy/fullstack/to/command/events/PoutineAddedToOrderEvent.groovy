@@ -9,7 +9,7 @@ import lombok.Getter
 class PoutineAddedToOrderEvent {
 
     String orderId
-    Double newTotalOrderPrice
+    BigDecimal newTotalOrderPrice
     List<LineItem> lineItemsWithAddition
     LineItem lineItemAddition
 

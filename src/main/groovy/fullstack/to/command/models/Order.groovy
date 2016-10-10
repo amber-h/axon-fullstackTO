@@ -18,7 +18,7 @@ public class Order extends AbstractAnnotatedAggregateRoot<String> {
 
     private OrderStatus status
     private List<LineItem> lineItems
-    private Double totalPrice
+    private BigDecimal totalPrice
 
     //Axon requires a no arg constructor to create uninitialized aggregate
     Order() {
@@ -32,7 +32,7 @@ public class Order extends AbstractAnnotatedAggregateRoot<String> {
     @CommandHandler
     public void on(AddPoutineToOrderCommand command) {
 
-        Double newOrderTotal = totalPrice + command.getPrice().multiply(command.getQuantity());
+        BigDecimal newOrderTotal = totalPrice + command.getPrice().multiply(command.getQuantity());
 
         LineItem lineItemAddition = new LineItem(command.orderId, command.productId, command.description, command.price, command.quantity)
         List<LineItem> orderLineItemsWithAddition = lineItems.plus(lineItemAddition)

@@ -10,7 +10,7 @@ class LineItem {
     String orderId
     String productId
     String description
-    Double price
+    BigDecimal price
     Integer quantity
 
 }
